@@ -6,14 +6,7 @@ const app = express();
 const Nuggies = require('nuggies');
 const { MongoClient } = require('mongodb');
 module.exports.run = async (client, message) => {
-  const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
-  const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  mongo.connect(err => {
-    const collection = mongo.db("test").collection("devices");
-    // perform actions on the collection object
-    mongo.close();
-  });
-  Nuggies.connect(uri);
+
   //Nuggies.giveaways.startAgain(client);
     game(client);
     client.setInterval(() => {

@@ -18,6 +18,19 @@ client.emoji = require("./botconfig/emojis.json");
   require(`./handlers/${handler}`)(client);
 });
 
+client.on('ready', () => {
+  Nuggies.giveaways.startAgain(client);
+});
+
+const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
+//const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongo.connect(err => {
+  //onst collection = mongo.db("test").collection("devices");
+  // perform actions on the collection object
+  //mongo.close();
+//});
+Nuggies.connect(uri);
+
 require('discord-buttons')(client);
 Nuggies.handleInteractions(client)
 
