@@ -20,8 +20,24 @@ client.emoji = require("./botconfig/emojis.json");
 
 client.on('ready', () => {
   Nuggies.giveaways.startAgain(client);
-  Nuggies.giveaways.Messages(client, {}); // The options can be empty for default ones
-
+  Nuggies.giveaways.Messages(client, {
+    dmWinner: true,
+    giveaway: '🎉 **GIVEAWAY** 🎉',
+    giveawayDescription: '🎁 Prize: **{prize}**\n🎊 Hosted by: {hostedBy}\n⏲️ Winner(s): `{winners}`\n\nRequirements: {requirements}',
+    endedGiveawayDescription: '🎁 Prize: **{prize}**\n🎊 Hosted by: {hostedBy}\n⏲️ Winner(s): {winners}',
+    giveawayFooterImage: 'https://cdn.discordapp.com/emojis/843076397345144863.png',
+    winMessage: '{winners} you won {prize} Congratulations! Hosted by {hostedBy}',
+    rerolledMessage: 'Rerolled! {winner} is the new winner of the giveaway!', // only {winner} placeholder
+    toParticipate: '**Click the Enter button to enter the giveaway!**',
+    newParticipant: 'You have successfully entered for this giveaway', // no placeholders | ephemeral
+    alreadyParticipated: 'you already entered this giveaway!', // no placeholders | ephemeral
+    noParticipants: 'There are not enough people in the giveaway!', // no placeholders
+    noRole: 'You do not have the required role(s)\n{requiredRoles}\n for the giveaway!', // only {requiredRoles} | ephemeral
+    dmMessage: 'You have won a giveaway in **{guildName}**!\nPrize: [{prize}]({giveawayURL})',
+    noWinner: 'Not enough people participated in this giveaway.', // no {winner} placerholder
+    alreadyEnded: 'The giveaway has already ended!', // no {winner} placeholder
+    dropWin: '{winner} Won The Drop!!', // only {winner} placeholder
+  });
 });
 
 const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
