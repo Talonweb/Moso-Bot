@@ -6,7 +6,7 @@ const app = express();
 const Nuggies = require('nuggies');
 const { MongoClient } = require('mongodb');
 module.exports.run = async (client, message) => {
-  const uri = "mongodb+srv://ADMIN:nfZ(<vCMN7LHy:b~@localhost.0k1dh.mongodb.net/Giveaways?retryWrites=true&w=majority";
+  const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
   const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   mongo.connect(err => {
     const collection = mongo.db("test").collection("devices");
