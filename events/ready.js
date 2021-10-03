@@ -15,7 +15,7 @@ module.exports.run = async (client, message) => {
   });
   Nuggies.connect(uri);
   Nuggies.handleInteractions(client)
-  Nuggies.giveaways.startAgain(client);
+  //Nuggies.giveaways.startAgain(client);
     game(client);
     client.setInterval(() => {
       game(client);
