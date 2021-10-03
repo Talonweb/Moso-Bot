@@ -1,6 +1,6 @@
 const Discord = require("discord.js"); 
 const ee = require("./botconfig/embed.json");
-
+const Nuggies = require("nuggies");
 const client = new Discord.Client({
   fetchAllMembers: false,
   restTimeOffset: 0,
@@ -19,6 +19,7 @@ client.emoji = require("./botconfig/emojis.json");
 });
 
 require('discord-buttons')(client);
+Nuggies.handleInteractions(client)
 
 
 client.on("guildMemberAdd", function (message) {
