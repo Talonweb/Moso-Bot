@@ -20,6 +20,8 @@ client.emoji = require("./botconfig/emojis.json");
 
 client.on('ready', () => {
   Nuggies.giveaways.startAgain(client);
+  Nuggies.giveaways.Messages(client, {}); // The options can be empty for default ones
+
 });
 
 const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
