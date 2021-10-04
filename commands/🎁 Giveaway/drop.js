@@ -15,7 +15,7 @@ module.exports = {
         if (hasPerm === false) {
             return message.channel.send(
                 new Discord.MessageEmbed()
-                .setTitle('PeePad | Drop Error')
+                .setTitle('Pee Pad | Drop Error')
                 .setColor(ee.wrongcolor)
                 .setDescription("You need `MANAGE_MESSAGES` permissions to use this command!")
                 .setFooter(ee.footertext, ee.footericon)
@@ -25,7 +25,7 @@ module.exports = {
     
         const Embed = new Discord.MessageEmbed()
             .setColor(ee.color)
-            .setTitle("PeePad | Drop System")
+            .setTitle("Pee Pad | Drop System")
             .setDescription("Mention a channel or type **stop** to cancel the giveaway!")
             .setFooter(ee.footertext, ee.footericon)
             .setTimestamp()
@@ -44,7 +44,7 @@ module.exports = {
             error = true;
             mainMsg.edit(
                 new Discord.MessageEmbed()
-                .setTitle('PeePad | Drop Error')
+                .setTitle('Pee Pad | Drop Error')
                 .setColor(ee.wrongcolor)
                 .setDescription("You didn't mentioned a channel in time... So, I cancelled the giveaway!")
                 .setFooter(ee.footertext, ee.footericon)
@@ -58,7 +58,7 @@ module.exports = {
 
             let cnl = new MessageEmbed()
             .setColor(ee.wrongcolor)
-            .setTitle('PeePad | Drop Error')
+            .setTitle('Pee Pad | Drop Error')
             .setDescription("Drop Cancelled!")
             .setFooter(ee.footertext, ee.footericon)
             .setTimestamp()
@@ -68,7 +68,7 @@ module.exports = {
         if (!salon) {
             return message.channel.send(
                 new Discord.MessageEmbed()
-                .setTitle('PeePad | Drop Error')
+                .setTitle('Pee Pad | Drop Error')
                 .setColor(ee.wrongcolor)
                 .setDescription('I can\'t find this channel. Are you sure that I can see it?')
                 .setFooter(ee.footertext, ee.footericon)
@@ -96,7 +96,7 @@ module.exports = {
             error = true;
             mainMsg.edit(
                 new Discord.MessageEmbed()
-                .setTitle('PeePad | Drop Error')
+                .setTitle('Pee Pad | Drop Error')
                 .setColor(ee.wrongcolor)
                 .setDescription("You didn't specified a prize in time... So, I cancelled the giveaway!")
                 .setFooter(ee.footertext, ee.footericon)
@@ -123,13 +123,13 @@ module.exports = {
                     dynamic: 'true'
                 }))
                 .setColor(ee.color)
-                .setDescription(`First to click on \`🚀\` will win !\n\n\`🎁\`・Prize: **${msg2}**\n\`⏲️\`・Max duration: **30** minutes\n\`🏆\`・Drop by: ${message.author.tag}`)
+                .setDescription(`First to click on \`☕\` will win !\n\n\`🎁\`・Prize: **${msg2}**\n\`⏲️\`・Max duration: **30** minutes\n\`🏆\`・Drop by: ${message.author.tag}`)
                 .setFooter(ee.footertext, ee.footericon)
                 .setTimestamp()
             let m = await salon.send(DropEmbed)
-            m.react('🚀')
+            m.react('☕')
             const filtre = (reaction, user) => {
-                return ['🚀'].includes(reaction.emoji.name) && !user.bot;
+                return ['☕'].includes(reaction.emoji.name) && !user.bot;
             };
             m.awaitReactions(filtre, {
                     max: 1,
@@ -137,7 +137,7 @@ module.exports = {
                     errors: ['time']
                 }).then(collected => {
                     const reaction = collected.first();
-                    if (reaction.emoji.name === '🚀') {
+                    if (reaction.emoji.name === '☕') {
                         const WinEmbed = new Discord.MessageEmbed()
                             .setAuthor(message.author.tag, message.author.displayAvatarURL({
                                 format: 'png',
