@@ -70,17 +70,17 @@ module.exports = {
                                 let embed = new Discord.MessageEmbed()
                                     .setTitle(prize[0])
                                     .setColor(ee.color)
-                                    .setDescription(`React 🚀 to join the giveaway.\n\n\`🧭\` ・ Time: **${ms(time, {long:true})}**\n\`👑\` ・ Winners: **${winners}**\n\`🎒\` ・ Hosted By: ${message.author}`)
+                                    .setDescription(`React 📮 to join the giveaway.\n\n\`🧭\` ・ Time: **${ms(time, {long:true})}**\n\`👑\` ・ Winners: **${winners}**\n\`🎒\` ・ Hosted By: ${message.author}`)
                                     .addField("Requirements", (await requirements).length == 0 ? "None!" : requirements.join("\n") + (!prize[1] ? "" : "\n" + prize.join(" | ").slice(prize[0].length + 3)))
                                     .setFooter("There could have been up to " + winners + " winners.", client.user.displayAvatarURL())
                                     .setTimestamp()
                                 message.channel.send(embed).then(msg => {
-                                    msg.react("🚀");
+                                    msg.react("📮");
                                     //let giveaway = message.guild.roles.cache.find(x => x.name === 'Giveaway');
                                // message.channel.send(`${giveaway}`).then(x => x.delete({timeout: 2000}))
                                let filter = async (reaction, user) => {
                                 if (user.id !== client.user.id) {
-                                    if (reaction.emoji.name == "🚀") {
+                                    if (reaction.emoji.name == "📮") {
                                         let userreacts = msg.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
                                         if (rolevar !== "none") {
                                             let role = message.guild.roles.cache.get(rolevar);
@@ -107,7 +107,7 @@ module.exports = {
                                     let msg2 = await message.channel.messages.fetch(msg.id);
                                     if (await msg2) {
                                         if (msg2.embeds[0].description == "Giveaway is over.") return;
-                                        let react = await msg2.reactions.cache.get("🚀").users ? (await msg2.reactions.cache.get("🚀").users.fetch()).array().filter(user => user.id !== client.user.id) : [];
+                                        let react = await msg2.reactions.cache.get("📮").users ? (await msg2.reactions.cache.get("📮").users.fetch()).array().filter(user => user.id !== client.user.id) : [];
                                         if (react.length == 0) {
                                             await msg2.edit(
                                                 new Discord.MessageEmbed()

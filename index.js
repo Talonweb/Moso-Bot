@@ -46,7 +46,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if(!giveawayid) return
   let giveawayrole = await db.get(`GiveawayRole_${reaction.message.id}`)
   if(!giveawayrole) return;
-   if(reaction.message.id == giveawayid && reaction.emoji.name == `🚀`) {
+   if(reaction.message.id == giveawayid && reaction.emoji.name == `📮`) {
     var home = await db.get(`giveawaydone_${reaction.message.id}`)
      
     var reactioncheck = setInterval(async function() {
@@ -98,7 +98,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
    if(!giveawayid) return
   let giveawayids = await db.get(`GiveawayID_${reaction.message.id}`)
   if(!giveawayids) return;
-   if(reaction.message.id == giveawayid && reaction.emoji.name == `🚀`) {
+   if(reaction.message.id == giveawayid && reaction.emoji.name == `📮`) {
 let guild = client.guilds.cache.get(giveawayids)
 let guildcheck = guild.member(user.id)
 
