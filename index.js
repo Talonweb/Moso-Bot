@@ -21,8 +21,7 @@ client.emoji = require("./botconfig/emojis.json");
 
 client.on('ready', () => {
   Nuggies.giveaways.startAgain(client);
-  Nuggies.Messages(client, {})
-  }); // full customization
+});
 
 const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
 //const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
