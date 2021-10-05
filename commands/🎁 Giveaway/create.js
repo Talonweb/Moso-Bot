@@ -190,7 +190,7 @@ module.exports = {
             new Discord.MessageEmbed()
                 .setTitle('Pee Pad | Giveaway System')
                 .setColor(ee.wrongcolor)
-                .setDescription(`Incorrect usage. Please use \`.gcreate <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\` instead.`)
+                .setDescription(`Incorrect usage. Please use \`.create <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\` instead.`)
                 .setFooter(ee.footertext, ee.footericon)
                 .setTimestamp()
         );
@@ -200,7 +200,7 @@ module.exports = {
         new Discord.MessageEmbed()
             .setTitle('Pee Pad | Giveaway System')
             .setColor(ee.wrongcolor)
-            .setDescription(`In order to use this command, you must run the command \`.gcreate <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\`.`)
+            .setDescription(`In order to use this command, you must run the command \`.create <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\`.`)
             .setFooter(ee.footertext, ee.footericon)
             .setTimestamp()
     );
