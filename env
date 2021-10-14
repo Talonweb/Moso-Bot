@@ -1,2 +1,2 @@
-mongoURI = your mongodb URI
+mongoURI = mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439
 amariApiKey = 9ef17cf1a03a81c22573f03a.8b3d6a.1aee85ed9633e9909a808a161a6
