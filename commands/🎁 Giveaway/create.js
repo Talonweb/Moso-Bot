@@ -20,7 +20,8 @@ module.exports = {
             time: 60 * 1000
         });
         let step = 0;
-        Nuggies.connect(process.env.mongoURI)
+        let uri = 'mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439'
+        Nuggies.connect(uri)
         message.channel.send('What is the prize?');
         collector.on('collect', async (msg) => {
             if (!msg.content) return collector.stop('error');

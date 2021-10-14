@@ -30,7 +30,7 @@ client.on('ready', () => {
   // perform actions on the collection object
   //mongo.close();
 //});
-Nuggies.connect(process.env.mongoURI);
+Nuggies.connect(uri);
 
 require('discord-buttons')(client);
 Nuggies.handleInteractions(client)
