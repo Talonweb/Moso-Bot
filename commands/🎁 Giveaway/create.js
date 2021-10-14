@@ -9,201 +9,160 @@ module.exports = {
     aliases : ['cr'],
     description: `Shows all available bot commands.`,
     run: async (client, message, args, db) => {
-        if (args[0]) {
-            if (args[5]) {
-                let time = (typeof ms(args[0]) == "number" ? ms(args[0]) : (isNaN(parseFloat(args[0])) ? undefined : parseFloat(args[0]) * 1000));
-                let winners = parseFloat(args[1]);
-               // let serverid = args[2];
-                let rolevar = args[3];
-                //let messagecountvar = args[4];
-                let testargs = args;
-                testargs.shift();
-                testargs.shift();
-                testargs.shift();
-                testargs.shift();
-                testargs.shift();
-                let prize = testargs.join(" ").split(" | ");
-                db.set(`prize_${message.guild.id}`, prize);
-                if (!time) {
-                    message.channel.send(
-                        new Discord.MessageEmbed()
-                            .setColor(ee.color)
-                            .setDescription(`The **first** argument must be a number.`)
-                    );
-                } else {
-                    if (time < 5000 || time > 2678400000) {
-                        message.channel.send(
-                            new Discord.MessageEmbed()
-                                .setColor(ee.color)
-                                .setDescription(`The **first** argument cannot be less than 5 seconds or greater than 31 days.`)
-                        );
-                    } else {
-                        if (isNaN(winners)) {
-                            message.channel.send(
-                                new Discord.MessageEmbed()
-                                    .setColor(ee.color)
-                                    .setDescription(`The **second** argument must be a number.`)
-                            );
-                        } else {
-                            if (winners < 1 || winners > 10) {
-                                message.channel.send(
-                                    new Discord.MessageEmbed()
-                                        .setColor(ee.color)
-                                        .setDescription(`The **second** argument cannot be less than 1 or greater than 10 winners.`)
-                                );
-                            } else {
-                                let requirements = [];
-                                if (rolevar !== "none") {
-                                    let role = message.guild.roles.cache.get(rolevar);
-                                    if (!role) {
-                                        message.channel.send(
-                                            new Discord.MessageEmbed()
-                                                .setColor(ee.color)
-                                                .setDescription(`Could not get the role id on the **fourth** argument.`)
-                                        );
-                                        return;
-                                    } else {
-                                        requirements.push(`\`🚧\` ・ Role required: <@&${role.id}>`);
-                                    }
-                                };
-                                message.delete();
-                                let embed = new Discord.MessageEmbed()
-                                    .setTitle(prize[0])
-                                    .setColor(ee.color)
-                                    .setDescription(`React 📮 to join the giveaway.\n\n\`🧭\` ・ Time: **${ms(time, {long:true})}**\n\`👑\` ・ Winners: **${winners}**\n\`🎒\` ・ Hosted By: ${message.author}`)
-                                    .addField("Requirements", (await requirements).length == 0 ? "None!" : requirements.join("\n") + (!prize[1] ? "" : "\n" + prize.join(" | ").slice(prize[0].length + 3)))
-                                    .setFooter("There could have been up to " + winners + " winners.", client.user.displayAvatarURL())
-                                    .setTimestamp()
-                                message.channel.send(embed).then(msg => {
-                                    msg.react("📮");
-                                    //let giveaway = message.guild.roles.cache.find(x => x.name === 'Giveaway');
-                               // message.channel.send(`${giveaway}`).then(x => x.delete({timeout: 2000}))
-                               let filter = async (reaction, user) => {
-                                if (user.id !== client.user.id) {
-                                    if (reaction.emoji.name == "📮") {
-                                        let userreacts = msg.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
-                                        if (rolevar !== "none") {
-                                            let role = message.guild.roles.cache.get(rolevar);
-                                            if (role) {
-                                                if (!message.guild.members.cache.get(user.id).roles.cache.has(role.id)) {
-                                                    for (let reaction of userreacts.values()) {
-                                                        await reaction.users.remove(user.id);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    };
-                                };
-                            };
-                            msg.awaitReactions(filter, { 
-                                max: null, 
-                                time: time 
-                            }).then(async collected => {
-                            }).catch(err => {});
-                            setTimeout(
-                                async function() {
-                                    // Reroll breaks before of:
-                                    
-                                    let msg2 = await message.channel.messages.fetch(msg.id);
-                                    if (await msg2) {
-                                        if (msg2.embeds[0].description == "Giveaway is over.") return;
-                                        let react = await msg2.reactions.cache.get("📮").users ? (await msg2.reactions.cache.get("📮").users.fetch()).array().filter(user => user.id !== client.user.id) : [];
-                                        if (react.length == 0) {
-                                            await msg2.edit(
-                                                new Discord.MessageEmbed()
-                                                    .setTitle(prize[0])
-                                                    .setDescription(`Giveaway is over.`)
-                                                    .setColor(ee.color)
-                                                    .addField("Winners", "No winners.")
-                                                    .addField("Requirements", (await requirements).length == 0 ? "None!" : requirements.join("\n"))
-                                                    .setFooter("There could have been up to " + winners + " winners.")
-                                            )
-                                            let embeee = new Discord.MessageEmbed()
-                                            .setColor(ee.color)
-                                            .setTitle("Pee Pad | Giveaway System")
-                                            .setDescription(`The giveaway for **${prize[0]}** has ended. Below are our winners!` + (users.length == 0 ? " No winners." : "\n・ " + users.join("\n・ ")))
-                                            .setFooter(ee.footertext, ee.footericon)
-                                            .setTimestamp()
-                                            message.channel.send(embeee)     
-                                            //message.channel.send("<:go:823783068577169438> **The giveaway has ended.** Our winners are: No winners.")
-                                        } else {
-                                            let users = [];
-                                            for (var i = 0, len = winners; i < len; i++) {
-                                                let random = Math.floor(Math.random() * react.length);
-                                                if (react.length == 0) {
-                                                    i == winners;
-                                                } else {
-                                                    let id = react[random].id;
-                                                    if (users.includes(id)) {
-                                                        i--
-                                                    } else {
-                                                        let pass = true;
-                                                        if (!message.guild.members.cache.get(id)) pass = false;
-                                                        if (rolevar !== "none") {
-                                                            let role = message.guild.roles.cache.get(rolevar);
-                                                            if (role) {
-                                                                if (!message.guild.members.cache.get(id).roles.cache.has(role.id)) {
-                                                                    pass = false
-                                                                }
-                                                            }
-                                                        }
-                                                        if (pass == true) {
-                                                            users.push("<@" + id + ">");
-                                                        } else {
-                                                            i--;
-                                                        }
-                                                        delete react[random];
-                                                        react = react.filter(function (el) {
-                                                            return el != null;
-                                                        });
-                                                    }   
-                                                }
-                                            };
-                                            await msg2.edit(
-                                                new Discord.MessageEmbed()
-                                                    .setTitle(prize[0])
-                                                    .setDescription(`Giveaway is over.`)
-                                                    .setColor(ee.color)
-                                                    .addField("Winners", users.length !== 0 ? users.join("\n") : "No winners.")
-                                                    .addField("Requirements", (await requirements).length == 0 ? "None!" : requirements.join("\n"))
-                                                    .setFooter("There could have been up to " + winners + " winners.")
-                                                    .setTimestamp()
-                                            )
-                                            let embee = new Discord.MessageEmbed()
-                                            .setColor(ee.color)
-                                            .setTitle("Pee Pad | Giveaway System")
-                                            .setDescription(`The giveaway for **${prize[0]}** has ended. Below are our winners!` + (users.length == 0 ? " No winners." : "\n・ " + users.join("\n・ ")))
-                                            .setFooter(ee.footertext, ee.footericon)
-                                            .setTimestamp()
-                                            message.channel.send(embee)                                            }
-                                    }
-                                }
-                            , time);
-                        }).catch(err => {
-                        });
-                    };
+       
+        const Nuggies = require('nuggies');
+        const prettyMilliSeconds = require('pretty-ms')
+        if (!message.member.permissions.has('MANAGE_GUILD') && !message.author.id == 543031298130837510 && !message.member.roles.cache.some((r) => r.name.toLowerCase() === "Giveaways")) return message.reply('You are not allowed to use this command!');
+        const filter = m => m.author.id === message.author.id;
+        const collector = message.channel.createMessageCollector({
+            filter,
+            max: 7,
+            time: 60 * 1000
+        });
+        let step = 0;
+        Nuggies.connect(process.env.mongoURI)
+        message.channel.send('What is the prize?');
+        collector.on('collect', async (msg) => {
+            if (!msg.content) return collector.stop('error');
+
+            step++;
+            if (step == 1) {
+                const prize = msg.content;
+                message.channel.send(`The prize is **${prize}**! Which channel do you want to host in?`, {
+                    allowedMentions: {
+                        roles: [],
+                        users: [],
+                        parse: []
+                    }
+                });
+                giveaway.prize = prize;
+            } else if (step == 2) {
+                const channel = msg.mentions.channels.first() || msg.guild.channels.cache.get(msg.content);
+                if (!channel) return collector.stop('error');
+                giveaway.channel = channel.id;
+                message.channel.send(`Channel is <#${channel.id}>! Now how many winners do you want?`);
+            } else if (step == 3) {
+                const winners = msg.content;
+                if (isNaN(winners)) return collector.stop('error');
+                if (parseInt(winners) > 10) {
+                    message.reply('You cannot have more than 10 winners!');
+                    return collector.stop('error');
+                }
+                giveaway.winners = parseInt(winners);
+                message.channel.send(`${winners} winner(s) will be chosen for this giveaway! How much time do you want?`);
+            } else if (step == 4) {
+                const time = msg.content;
+                if (!ms(time)) return collector.stop('error');
+                giveaway.time = time
+                if (ms(giveaway.time) > ms('14d')) return collector.stop('HIGH_TIME');
+                message.channel.send(`The time is now set to ${time}! Who is hosting the giveaway?`);
+            } else if (step == 5) {
+                const host = msg.mentions.users.first() || msg.guild.members.cache.get(msg.content) || message.member;
+
+                giveaway.host = host.id;
+                message.channel.send(`The host is ${host}! Now do you want any requirements for the giveaway?`);
+            } else if (step == 6) {
+                if (!['yes', 'no'].includes(msg.content.toLowerCase())) return collector.stop('error');
+                giveaway.requirements = {
+                    enabled: msg.content == 'yes' ? true : false
                 };
-            };
-        };
-    } else {
-        message.channel.send(
-            new Discord.MessageEmbed()
-                .setTitle('Pee Pad | Giveaway System')
-                .setColor(ee.wrongcolor)
-                .setDescription(`Incorrect usage. Please use \`.create <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\` instead.`)
-                .setFooter(ee.footertext, ee.footericon)
-                .setTimestamp()
-        );
-    };
-} else {
-    message.channel.send(
-        new Discord.MessageEmbed()
-            .setTitle('Pee Pad | Giveaway System')
-            .setColor(ee.wrongcolor)
-            .setDescription(`In order to use this command, you must run the command \`.create <time> <winners> <server id or "none"> <role id or "none"> <message count number or "none"> <prize>\`.`)
-            .setFooter(ee.footertext, ee.footericon)
-            .setTimestamp()
-    );
-};
+                return message.channel.send(`Is this correct?\n\`\`\`Prize: ${giveaway.prize}\nWinner(s): ${giveaway.winners}\nTime: ${prettyMilliSeconds(ms(giveaway.time), { verbose: true })}\nhost: ${message.guild.members.cache.get(giveaway.host).user.username}\nRequirements: ${giveaway.requirements.enabled ? 'Yes' : 'No'}\n\`\`\`Reply with \`yes\` or \`no\`!`);
+            } else if (step == 7) {
+                if (!['yes', 'no'].includes(msg.content)) return collector.stop('error');
+                if (msg.content == 'yes') return collector.stop('done');
+                if (msg.content == 'no') return collector.stop('cancel');
+            }
+        });
+
+        collector.on('end', async (msgs, reason) => {
+            if (reason == 'time') return message.channel.send('You did not reply in time!');
+            if (reason == 'error') return message.channel.send('You did not provide valid option!');
+            if (reason == 'cancel') return message.channel.send('Cancelled giveaway setup due to wrong info!');
+            if (reason == 'HIGH_TIME') return message.channel.send('The time cannot be more than 14 days!');
+
+            if (reason == 'done' && giveaway.requirements.enabled) {
+                message.channel.send('You can use role requirements: `role=[ID]`!(without spaces), `amari=[Level]` or `wamari=[Weekly amari]`. Once you are finished putting requirements say `done`');
+                const rcollector = message.channel.createMessageCollector({
+                    filter,
+                    time: 60 * 1000,
+                    max: 1000
+                });
+                rcollector.on('collect', async (m) => {
+                    let amari = 0,
+                        wamari = 0
+                    if (!['done', 'stop', 'cancel'].includes(m.content.toLowerCase()) && !m.content.includes('=')) return rcollector.stop('error');
+                    const id = m.content.split(' ').join('').split('=')[1];
+                    if (m.content.toLowerCase() == 'done') return rcollector.stop('done');
+                    if (m.content.toLowerCase().includes('role=')) {
+                        if (!giveaway.requirements.roles) giveaway.requirements.roles = [];
+
+
+                        if (!message.guild.roles.cache.get(id)) return message.channel.send('That is not a valid role!');
+                        giveaway.requirements.roles.push(m.content.split(' ').join('').split('=')[1]);
+                        message.channel.send(`Added the role to requirements!\n\`\`\`\n${giveaway.requirements.roles.map(x => message.guild.roles.cache.get(x).name).join('\n')}\n\`\`\``, {
+                            allowedMentions: {
+                                roles: [],
+                                parse: [],
+                                users: []
+                            }
+                        })
+                    } else {
+                        giveaway.requirements.key = process.env.amariApiKey
+                        if (m.content.toLowerCase().includes('wamari=')) {
+
+                            if (amari > 0) return message.channel.send('You already set the weekly amari req')
+                            if (isNaN(id) || id < 0) return collector.stop('error');
+                            giveaway.requirements.amariweekly = id
+                            message.channel.send(`Added the weekly amari to requirements!`, {
+                                allowedMentions: {
+                                    roles: [],
+                                    parse: [],
+                                    users: []
+                                }
+                            })
+                        } else if (m.content.toLowerCase().includes('amari=')) {
+                            if (amari > 0) return message.channel.send('You already set the amari req')
+                            if (isNaN(id) || id < 0) return collector.stop('error');
+                            giveaway.requirements.amarilevel = id
+                            message.channel.send(`Added the amari to requirements!`, {
+                                allowedMentions: {
+                                    roles: [],
+                                    parse: [],
+                                    users: []
+                                }
+                            })
+                        } else return rcollector.stop('error');
+                    }
+                });
+
+                rcollector.on('end', async (msg, r) => {
+                    if (r == 'time') return message.channel.send('You did not reply in time!');
+                    if (r == 'error') return message.channel.send('You did not provide valid option!');
+                    if (r == 'cancel') return message.channel.send('Cancelled giveaway setup due to wrong info!');
+
+                    if (r == 'done') {
+                        Nuggies.giveaways.create(client, {
+                            prize: giveaway.prize,
+                            host: giveaway.host,
+                            winners: giveaway.winners,
+                            endAfter: giveaway.time,
+                            requirements: giveaway.requirements,
+                            channelID: giveaway.channel,
+                        });
+                        await message.channel.send('Created a giveaway!').then(m => setTimeout(() => m.delete(), 2000));
+                    }
+                });
+            } else {
+                Nuggies.giveaways.create(client, {
+                    prize: giveaway.prize,
+                    host: giveaway.host,
+                    winners: giveaway.winners,
+                    endAfter: giveaway.time,
+                    channelID: giveaway.channel,
+                    requirements: giveaway.requirements,
+                });
+                await message.channel.send('Created a giveaway!').then(m => setTimeout(() => m.delete(), 2000));
+            }
+        }) 
     }
 }

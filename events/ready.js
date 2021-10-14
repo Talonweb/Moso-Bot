@@ -7,7 +7,6 @@ const Nuggies = require('nuggies');
 const { MongoClient } = require('mongodb');
 module.exports.run = async (client, message) => {
 
-  //Nuggies.giveaways.startAgain(client);
     game(client);
     client.setInterval(() => {
       game(client);
