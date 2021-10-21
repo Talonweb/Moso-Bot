@@ -9,6 +9,7 @@ const client = new Discord.Client({
   disableEveryone: true,
   partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
+const YoutubePoster = require("discord-yt-poster");
 
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -20,10 +21,10 @@ client.emoji = require("./botconfig/emojis.json");
 });
 
 client.on('ready', () => {
-  Nuggies.giveaways.startAgain(client);
+  //Nuggies.giveaways.startAgain(client);
 });
 
-//const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
+const uri = "mongodb://mongo:LXW4grfUaY71zE0BO3B0@containers-us-west-17.railway.app:7439";
 //const mongo = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 //mongo.connect(err => {
   //onst collection = mongo.db("test").collection("devices");
@@ -34,7 +35,6 @@ Nuggies.connect(uri);
 
 require('discord-buttons')(client);
 Nuggies.handleInteractions(client)
-
 
 client.on('messageReactionAdd', async (reaction, user) => {
   if(user.partial) await user.fetch();
@@ -137,6 +137,8 @@ client.on("guildMemberAdd", function (message) {
   channel.send(embed)
   member.roles.add(rolee)
 });
+
+
 
 
 client.login(require("./botconfig/config.json").token);
